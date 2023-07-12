@@ -86,7 +86,7 @@ Configure a string de conexão do banco de dados
 
 Instale o Dotnet Tool na raiz do projeto
 ```bash
-dotnet tool install --global
+dotnet tool install --global dotnet-ef
 ```
 
 
