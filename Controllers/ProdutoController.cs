@@ -23,8 +23,9 @@ public class ProdutoController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Produto>> Get(int Id)
     {
-          
-        return await _context.Get(Id);
+
+       return await _context.Get(Id);  
+
     }
 
     [HttpPost]
@@ -40,13 +41,18 @@ public class ProdutoController : ControllerBase
         if (produtoApagado != null)
         {
             await _context.Delete(produtoApagado.Id);
+            return Ok("Produto Removido");
         }
-        return BadRequest();
+        return BadRequest("ID Inválido");
     }
 
     [HttpPut]
     public async Task<ActionResult> Put(Produto produto)
     {
-        throw new NotImplementedException();
+        
+            await _context.Update(produto);
+            return Ok("Produto Modificado");
+        
+
     }
 }
