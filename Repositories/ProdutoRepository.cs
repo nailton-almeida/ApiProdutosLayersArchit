@@ -11,6 +11,11 @@ namespace ApiCatalogoProdutos.Repositories
         {
             _context = context;
         }
+
+        public ProdutoRepository()
+        {
+            
+        }
         public async Task<Produto> Create(Produto produto)
         {
             _context.Produtos.Add(produto);
@@ -24,7 +29,7 @@ namespace ApiCatalogoProdutos.Repositories
             var produto = await _context.Produtos.FirstOrDefaultAsync(produto => produto.Id == Id);
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();
-            
+
         }
 
         public async Task<IEnumerable<Produto>> Get()
@@ -35,7 +40,9 @@ namespace ApiCatalogoProdutos.Repositories
 
         public async Task<Produto> Get(int Id)
         {
-            return await _context.Produtos.FirstOrDefaultAsync(produto => produto.Id == Id);
+            return  await _context.Produtos.FirstOrDefaultAsync(produto => produto.Id == Id);
+              
+            
             
         }
 
