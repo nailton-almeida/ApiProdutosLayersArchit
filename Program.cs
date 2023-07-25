@@ -1,5 +1,7 @@
 using ApiCatalogoProdutos.Model;
 using ApiCatalogoProdutos.Repositories;
+using AutoMapper;
+using CatalogoProdutosMinimalAPI.DTO.Mappings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -11,6 +13,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProdutoRepository,   ProdutoRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+
+var mappingConfig = new MapperConfiguration(mc =>
+{
+
+    mc.AddProfile(new MappingProfile());
+});
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 string? mysqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 
