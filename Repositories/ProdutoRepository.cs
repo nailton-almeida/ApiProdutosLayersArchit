@@ -1,6 +1,9 @@
 ﻿using ApiCatalogoProdutos.Model;
-using Microsoft.AspNetCore.Http.HttpResults;
+
+using CatalogoProdutosMinimalAPI.DTO;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ApiCatalogoProdutos.Repositories
 {
@@ -14,8 +17,12 @@ namespace ApiCatalogoProdutos.Repositories
 
         public ProdutoRepository()
         {
-            
+
+
         }
+
+
+
         public async Task<Produto> Create(Produto produto)
         {
             _context.Produtos.Add(produto);
@@ -41,9 +48,7 @@ namespace ApiCatalogoProdutos.Repositories
         public async Task<Produto> Get(int Id)
         {
             return  await _context.Produtos.FirstOrDefaultAsync(produto => produto.Id == Id);
-              
-            
-            
+
         }
 
         public async Task Update(Produto produto)
@@ -51,5 +56,14 @@ namespace ApiCatalogoProdutos.Repositories
              _context.Entry(produto).State = EntityState.Modified;
              await _context.SaveChangesAsync();
         }
+
+        
     }
 }
+
+
+
+ 
+
+    
+

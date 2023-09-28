@@ -1,5 +1,5 @@
 ﻿using ApiCatalogoProdutos.Model;
-using System.Diagnostics.Eventing.Reader;
+
 
 namespace ApiCatalogoProdutos.Repositories;
 

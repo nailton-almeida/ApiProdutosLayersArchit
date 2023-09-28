@@ -1,6 +1,9 @@
 ﻿using ApiCatalogoProdutos.Model;
 using ApiCatalogoProdutos.Repositories;
+using AutoMapper;
+using CatalogoProdutosMinimalAPI.DTO;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace ApiCatalogoProdutos.Controllers;
 
@@ -9,22 +12,40 @@ namespace ApiCatalogoProdutos.Controllers;
 public class ProdutoController : ControllerBase
 {
     private readonly IProdutoRepository _context;
-    public ProdutoController(IProdutoRepository context)
+    private readonly IMapper _mapper;
+    public ProdutoController(IProdutoRepository context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
+
     }
 
     [HttpGet]
-     public async Task<IEnumerable<Produto>> Get()
+
+     public async Task<IEnumerable<ProdutoDTO>> Get([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
-        return await _context.Get();
+
+        pageNumber = Math.Max(1, pageNumber);
+        pageSize = Math.Min(50, Math.Max(1, pageSize));
+
+
+        int offset = (pageNumber - 1) * pageSize;
+
+        var produto = await _context.Get();
+        var produtosDTO = _mapper.Map<IEnumerable<ProdutoDTO>>(produto);
+        var produtosPaginados = produtosDTO.Skip(offset).Take(pageSize);
+         
+        return produtosPaginados;
+
+
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Produto>> Get(int Id)
+    public async Task<ActionResult<ProdutoDTO>> Get(int Id)
     {
-
-       return await _context.Get(Id);  
+        var produto = await _context.Get();
+        var produtosDTO = _mapper.Map<ProdutoDTO>(produto);
+        return produtosDTO;  
 
     }
 
