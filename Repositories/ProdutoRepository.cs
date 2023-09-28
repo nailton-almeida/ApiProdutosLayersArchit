@@ -23,8 +23,6 @@ namespace ApiCatalogoProdutos.Repositories
 
 
 
-    
-
         public async Task<Produto> Create(Produto produto)
         {
             _context.Produtos.Add(produto);

@@ -7,6 +7,10 @@ O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.
 e este projeto adere ao [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.3.0] - 28-09-2023
+### Modificado
+- Implementado Data Transfer Object para as entidades Produtos e Categorias.
+
 ## [0.2.0] - 14-07-2023
 ### Adicionado
 - Estrutura para disponibilizar endpoint de categorias de produtos.

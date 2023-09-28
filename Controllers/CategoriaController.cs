@@ -1,5 +1,7 @@
-﻿using ApiCatalogoProdutos.Model;
+﻿using ApiCatalogoProdutos.DTO;
+using ApiCatalogoProdutos.Model;
 using ApiCatalogoProdutos.Repositories;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiCatalogoProdutos.Controllers;
@@ -9,15 +11,25 @@ namespace ApiCatalogoProdutos.Controllers;
 public class CategoriaController : ControllerBase 
 {
     private readonly ICategoriaRepository _context;
-    public CategoriaController(ICategoriaRepository context)
+    private readonly IMapper _mapper;
+
+    public CategoriaController(ICategoriaRepository context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Categoria>> Get() 
+    public async Task<IEnumerable<CategoriaDTO>> Get([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10) 
     {
-        return await _context.Get();
+        pageNumber = Math.Max(1, pageNumber);
+        pageSize = Math.Min(50, Math.Max(1, pageSize)); // Limitando o tamanho máximo da página para 50, por exemplo.
+
+        int offset = (pageNumber - 1) * pageSize;
+        var categoria = await _context.Get();
+        var categoriasDTO = _mapper.Map<IEnumerable<CategoriaDTO>>(categoria);
+        var categoriaPaginados = categoriasDTO.Skip(offset).Take(pageSize);
+        return categoriaPaginados;
     }
 
     [HttpGet("{id:int}")]

@@ -21,14 +21,13 @@ public class ProdutoController : ControllerBase
     }
 
     [HttpGet]
-     //public async Task<IEnumerable<ProdutoDTO>> Get([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+
      public async Task<IEnumerable<ProdutoDTO>> Get([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
 
         pageNumber = Math.Max(1, pageNumber);
-        pageSize = Math.Min(50, Math.Max(1, pageSize)); // Limitando o tamanho máximo da página para 50, por exemplo.
+        pageSize = Math.Min(50, Math.Max(1, pageSize));
 
-        // Calcula o número de itens que devem ser pulados (offset) com base no número da página e no tamanho da página.
 
         int offset = (pageNumber - 1) * pageSize;
 
@@ -36,22 +35,9 @@ public class ProdutoController : ControllerBase
         var produtosDTO = _mapper.Map<IEnumerable<ProdutoDTO>>(produto);
         var produtosPaginados = produtosDTO.Skip(offset).Take(pageSize);
          
-
-        // Obtém os produtos paginados do repositório.
-        //var produtosPaginados = await produto.Skip(offset).Take(pageSize);
-
-
-        // Mapeia os objetos Produto para ProdutoDTO usando o _mapper.
-        //var produtosDTO = _mapper.Map<IEnumerable<ProdutoDTO>>(produtosPaginados);
-
-
-
         return produtosPaginados;
 
 
-        //var produto = await _context.Get();
-        //var produtosDTO = _mapper.Map<IEnumerable<ProdutoDTO>>(produto);
-        //return produtosDTO;
     }
 
     [HttpGet("{id:int}")]
